@@ -1,0 +1,33 @@
+{
+  "name": "giordano-mars-rover-nodejs",
+  "version": "1.0.0",
+  "description": "Test for VoyagerPortal",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/**/**.spec.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giolazzareschi/giordano-mars-rover-nodejs.git"
+  },
+  "keywords": [
+    "Mars",
+    "Rover",
+    "Kata",
+    "Nasa",
+    "Nodejs"
+  ],
+  "author": "Giordano Bruno Lazzareschi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/giolazzareschi/giordano-mars-rover-nodejs/issues"
+  },
+  "homepage": "https://github.com/giolazzareschi/giordano-mars-rover-nodejs#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "commander": "^2.19.0",
+    "inquirer": "^6.2.2",
+    "mocha": "^5.2.0"
+  }
+}
