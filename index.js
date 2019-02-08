@@ -29,8 +29,7 @@ let programFlowStruct = {
 
     answer: function(commandLineInput) {
       let
-      userInput = getUserInput(commandLineInput),
-      inputs = tools.splitUserInput(userInput),
+      inputs = tools.parseCommandLineInput(commandLineInput),
       validInput = inputs && inputs.length === 2;
 
       if(validInput) {
@@ -65,8 +64,7 @@ let programFlowStruct = {
     answer: function(commandLineInput) {
 
       let
-      userInput = getUserInput(commandLineInput),
-      inputs = tools.splitUserInput(userInput),
+      inputs = tools.parseCommandLineInput(commandLineInput),
       invalid = tools.isInvalidInteger(inputs[0]);
 
       if(invalid) {
@@ -105,10 +103,6 @@ function getUserCommandLineAnswer(questions, methodToDeal) {
 };
 
 /* Command line api */
-function getUserInput(commandLineInput) {
-  return (commandLineInput && commandLineInput.userInput) || "";
-};
-
 function callCommandLineUserInput(questions, responseMethod) {
   inquirer.prompt(questions).then(responseMethod);
 };

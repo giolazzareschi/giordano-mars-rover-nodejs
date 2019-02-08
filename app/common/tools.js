@@ -23,8 +23,12 @@ function printWarnMessage(warnMessage) {
 function round(number) {
   if(!isInvalidInteger(number))
     return Math.round(number);
-  
+
   return 0;
+};
+
+function parseCommandLineInput(commandLineInput) {
+  return splitUserInput((commandLineInput && commandLineInput.userInput) || "");
 };
 
 module.exports = {
@@ -32,4 +36,5 @@ module.exports = {
   splitUserInput: splitUserInput,
   printWarnMessage: printWarnMessage,
   round: round,
+  parseCommandLineInput: parseCommandLineInput,
 }
