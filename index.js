@@ -2,11 +2,12 @@
 
 'use strict';
 
-/* modules */
+/* npm modules */
 const program = require('commander');
 const print = console.log;
 const inquirer = require('inquirer');
 
+/* app modules */
 const tools = require('./app/common/tools');
 const Plateau = require('./app/models/Plateau');
 
@@ -29,7 +30,7 @@ let programFlowStruct = {
     answer: function(commandLineInput) {
       let
       userInput = getUserInput(commandLineInput),
-      inputs = splitUserInput(userInput),
+      inputs = tools.splitUserInput(userInput),
       validInput = inputs && inputs.length === 2;
 
       if(validInput) {
@@ -39,12 +40,12 @@ let programFlowStruct = {
         validBorders = plateauMars.setBorderLimits(coordinateX, coordinateY);
         
         if(validBorders.message)
-          return callQuestion('plateauConfiguration', validBorders.message);
+          return makeCommandLineQuestion('plateauConfiguration', validBorders.message);
         
-        callQuestion('roverLandingConfiguration');
+        makeCommandLineQuestion('roverLandingConfiguration');
 
       } else {
-        return callQuestion('plateauConfiguration', 'Hey, supply 2 integer numbers please.');
+        return makeCommandLineQuestion('plateauConfiguration', 'Hey, supply 2 integer numbers please.');
       }
     }
   },
@@ -65,62 +66,56 @@ let programFlowStruct = {
 
       let
       userInput = getUserInput(commandLineInput),
-      inputs = splitUserInput(userInput),
-      invalid = isInvalidInteger(inputs[0]);
+      inputs = tools.splitUserInput(userInput),
+      invalid = tools.isInvalidInteger(inputs[0]);
 
       if(invalid) {
-        return callQuestion('roverLandingConfiguration', 'Hey, supply an integer number.');
+        return makeCommandLineQuestion('roverLandingConfiguration', 'Hey, supply an integer number.');
       } else {
-        
+
       }
 
     }
   }
-
 };
 
 print("-------- Mars Rover Simulator --------");
 print("Before start, let's configurate de plateau borders.");
+print("\n");
 
-function isInvalidInteger(data) {
-  return tools.isInvalidInteger(data);
-};
 
-function splitUserInput(inputString) {
-  return tools.splitUserInput(inputString);
-};
-
-function getUserInput(commandLineInput) {
-  return (commandLineInput && commandLineInput.userInput) || "";
-};
-
-function userInput(questions, responseMethod) {
-  inquirer.prompt(questions).then(responseMethod);
-};
-
-function callQuestion(questionCommand, warnMessage) {
+/* Command line intefaces question */
+function makeCommandLineQuestion(methodToDeal, warnMessage) {
   let
-  flow = programFlowStruct[questionCommand];
+  flow = programFlowStruct[methodToDeal];
 
-  if(warnMessage) {
-    print('\n');
-    print('::::::::::::::');
-    print("Warning: ", String(warnMessage));
-    print('::::::::::::::');
-    print('\n');
-  }
+  tools.printWarnMessage(warnMessage);
 
   if(flow && flow.question)
     flow.question();
 };
 
-function getUserCommandLineAnswer(questions, methodToDealResponse) {
+/* Command line inteface answer */
+function getUserCommandLineAnswer(questions, methodToDeal) {
   let
-  flow = programFlowStruct[methodToDealResponse];
+  flow = programFlowStruct[methodToDeal];
 
   if(flow)
-    userInput(questions, flow.answer);
+    callCommandLineUserInput(questions, flow.answer);
 };
+
+/* Command line api */
+function getUserInput(commandLineInput) {
+  return (commandLineInput && commandLineInput.userInput) || "";
+};
+
+function callCommandLineUserInput(questions, responseMethod) {
+  inquirer.prompt(questions).then(responseMethod);
+};
+
+/* Command line start */
+let
+startQuestion = programFlowStruct.plateauConfiguration.question;
 
 program
   .version('0.0.1')
@@ -130,7 +125,7 @@ program
   .command('start')
   .alias('s')
   .description('Start the simulator')
-  .action(programFlowStruct.plateauConfiguration.question);
+  .action(startQuestion);
 
 program
   .parse(process.argv);

@@ -1,10 +1,10 @@
+'use strict';
+
 const tools = require('../common/tools');
 
 class Plateau{
 
-  constructor() {
-
-  }
+  constructor() {}
 
   set limits(array) {
     this.limitsCoordenates = {
@@ -24,7 +24,7 @@ class Plateau{
     if(this.isInvalidInteger(y))
       return new Error('Woops, Y coordinate must be an integer.');
 
-    return this.limits = [x, y];
+    return this.limits = [tools.round(x), tools.round(y)];
   }
 
   isInvalidInteger(data) {
