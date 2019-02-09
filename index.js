@@ -27,8 +27,7 @@ const Plateau = require('./app/models/Plateau');
 const Rover = require('./app/models/Rover');
 
 /* local variables */
-const print = console.log;
-
+let print = console.log;
 let plateauMars = new Plateau();
 let programFlow = {
 
@@ -49,12 +48,11 @@ let programFlow = {
         coordinateY = inputs[1],
         inValidBorders = plateauMars.setBorderLimits(coordinateX, coordinateY);
         
-        if(inValidBorders.message) {
+        if(inValidBorders.message)
           makeCommandLineQuestion('plateauConfiguration', inValidBorders.message);
-        } else { 
-          print("\n");
+        else
           makeCommandLineQuestion('roverLandingConfiguration');
-        }
+
       } else {
         makeCommandLineQuestion('plateauConfiguration', 'Hey, supply 2 integer numbers please.');
       }
@@ -83,8 +81,7 @@ let programFlow = {
         if(inValidRoverLanding.message) {
           makeCommandLineQuestion('roverLandingConfiguration', inValidRoverLanding.message);
         } else {
-          let
-          validRover = plateauMars.addRover(rover);
+          let validRoverArea = plateauMars.addRover(rover);
 
           rover.name = plateauMars.getRoverPoolSize();
 

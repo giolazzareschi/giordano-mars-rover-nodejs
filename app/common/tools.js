@@ -50,7 +50,7 @@ function isInvalidDirection(data) {
 module.exports = {
   isInvalidInteger: isInvalidInteger,
   splitUserInput: splitUserInput,
-  printWarnMessage: printWarnMessage,
+  printWarnMessageIfExists: printWarnMessageIfExists,
   round: round,
   parseCommandLineInput: parseCommandLineInput,
   isValidDirection: isValidDirection,
