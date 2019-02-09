@@ -15,7 +15,15 @@ const Rover = require('./app/models/Rover');
 /* local variables */
 let plateauMars = new Plateau();
 
-/* The program flow: the struct above have all the flow that the programs run along. */
+/* 
+  The program flow: the struct above have all the flow that the programs run along. 
+  Program starts with the 'plateauConfiguration', if succeeds goes to first rover
+  configuration in 'roverLandingConfiguration'. If the config for the first rover
+  is good, the program will ask for the instructions for the current rover.
+
+  If the instructions are correct, the program shows the final position for the rover
+  and lead the user to a next rover until the user decides to finish the program.
+*/
 let programFlow = {
 
   plateauConfiguration: {
@@ -33,10 +41,10 @@ let programFlow = {
         let
         coordinateX = inputs[0],
         coordinateY = inputs[1],
-        validBorders = plateauMars.setBorderLimits(coordinateX, coordinateY);
+        inValidBorders = plateauMars.setBorderLimits(coordinateX, coordinateY);
         
-        if(validBorders.message)
-          makeCommandLineQuestion('plateauConfiguration', validBorders.message);
+        if(inValidBorders.message)
+          makeCommandLineQuestion('plateauConfiguration', inValidBorders.message);
         else
           makeCommandLineQuestion('roverLandingConfiguration');
 
@@ -63,18 +71,50 @@ let programFlow = {
         coordinateY = inputs[1],
         direction = inputs[2],
         rover = new Rover(),
-        validRoverLanding = rover.setLandingInstructions(coordinateX, coordinateY, direction);
+        inValidRoverLanding = rover.setLandingInstructions(coordinateX, coordinateY, direction);
 
-        if(validRoverLanding.message) {
-          makeCommandLineQuestion('roverLandingConfiguration', validRoverLanding.message);
+        if(inValidRoverLanding.message) {
+          makeCommandLineQuestion('roverLandingConfiguration', inValidRoverLanding.message);
         } else {
           let
           validRover = plateauMars.addRover(rover);
 
+          rover.name = plateauMars.getRoverPoolSize();
           
+          makeCommandLineQuestion('instructionsForCurrentRover');
         }
       }else {
         makeCommandLineQuestion('roverLandingConfiguration', 'Please, supply the landing coordinates and a valid direction in the format: 0 0 D');
+      }
+    }
+  },
+
+  instructionsForCurrentRover: {
+
+    question: function() {
+      getUserCommandLineAnswerFor('instructionsForCurrentRover', "Rover" + ( plateauMars.getRoverPoolSize() ) + " Instructions: ");
+    },
+
+    answer: function(commandLineInput) {
+      let
+      inputs = tools.parseCommandLineInput(commandLineInput),
+      instructions = inputs.join("").replace(" ", "");
+
+      if(instructions) {
+        let
+        currentRover = plateauMars.getCurrentRover(),
+        invalidInstructions = currentRover.setInstructions(instructions);
+
+        if(invalidInstructions.message) {
+          makeCommandLineQuestion('instructionsForCurrentRover', invalidInstructions.message);
+        } else {
+          print(currentRover.displayCurrentState());
+          makeCommandLineQuestion('roverLandingConfiguration'); 
+        }
+
+          
+      }else{
+        makeCommandLineQuestion('instructionsForCurrentRover', 'Please inform correct instructions for the current Rover. Only allowed: L R M');
       }
     }
   }

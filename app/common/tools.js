@@ -7,7 +7,7 @@ function isInvalidInteger(data) {
 };
 
 function splitUserInput(inputString) {
-  return String(inputString).split(" ");
+  return String(inputString || "").split(" ");
 };
 
 function printWarnMessage(warnMessage) {
@@ -29,7 +29,7 @@ function round(number) {
 
 function parseCommandLineInput(commandLineInput) {
   var
-  split = splitUserInput(commandLineInput && commandLineInput.userInput) || [],
+  split = splitUserInput(commandLineInput && commandLineInput.userInput.trim()) || [],
   filtered = split.filter(function(item) { return String(String(item).trim()).toLocaleUpperCase(); }) || [];
 
   return filtered;

@@ -42,6 +42,10 @@ class Plateau{
     this.roverPool.push(roverInstance);
   }
 
+  getCurrentRover() {
+    return this.roverPool[this.roverPool.length-1];
+  }
+
   getRoverPoolSize() {
     return this.roverPool.length;
   }
