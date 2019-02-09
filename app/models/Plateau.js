@@ -4,7 +4,15 @@ const tools = require('../common/tools');
 
 class Plateau{
 
-  constructor() {}
+  constructor() {
+    
+    this.limitsCoordenates = {
+      x: 0,
+      y: 0
+    };
+
+    this.roverPool = [];
+  }
 
   set limits(array) {
     this.limitsCoordenates = {
@@ -25,6 +33,17 @@ class Plateau{
       return new Error('Woops, Y coordinate must be an integer.');
 
     return this.limits = [tools.round(x), tools.round(y)];
+  }
+
+  addRover(roverInstance) {
+    let
+    roverState = roverInstance.state;
+
+    this.roverPool.push(roverInstance);
+  }
+
+  getRoverPoolSize() {
+    return this.roverPool.length;
   }
 
   isInvalidInteger(data) {

@@ -10,21 +10,18 @@ const inquirer = require('inquirer');
 /* app modules */
 const tools = require('./app/common/tools');
 const Plateau = require('./app/models/Plateau');
+const Rover = require('./app/models/Rover');
 
+/* local variables */
 let plateauMars = new Plateau();
 
-let programFlowStruct = {
+/* The program flow: the struct above have all the flow that the programs run along. */
+let programFlow = {
 
   plateauConfiguration: {
 
     question: function() {
-      getUserCommandLineAnswer([
-        {
-          type: 'input',
-          name: 'userInput',
-          message: "Inform the upper-right plateau limit. \n  Write the X point, a space, then the Y point eg.: 4 5 \n",
-        }
-      ], 'plateauConfiguration');
+      getUserCommandLineAnswerFor('plateauConfiguration', "Plateau upper-right limits: ");
     },
 
     answer: function(commandLineInput) {
@@ -39,12 +36,12 @@ let programFlowStruct = {
         validBorders = plateauMars.setBorderLimits(coordinateX, coordinateY);
         
         if(validBorders.message)
-          return makeCommandLineQuestion('plateauConfiguration', validBorders.message);
-        
-        makeCommandLineQuestion('roverLandingConfiguration');
+          makeCommandLineQuestion('plateauConfiguration', validBorders.message);
+        else
+          makeCommandLineQuestion('roverLandingConfiguration');
 
       } else {
-        return makeCommandLineQuestion('plateauConfiguration', 'Hey, supply 2 integer numbers please.');
+        makeCommandLineQuestion('plateauConfiguration', 'Hey, supply 2 integer numbers please.');
       }
     }
   },
@@ -52,54 +49,52 @@ let programFlowStruct = {
   roverLandingConfiguration: {
 
     question: function() {
-      getUserCommandLineAnswer([
-        {
-          type: 'input',
-          name: 'userInput',
-          message: "How many Rovers are gonna land in Mars? \n",
-        }
-      ], 'roverLandingConfiguration');
+      getUserCommandLineAnswerFor('roverLandingConfiguration', "Rover" + ( plateauMars.getRoverPoolSize() + 1 ) + " Landing: ");
     },
-    
-    answer: function(commandLineInput) {
 
+    answer: function(commandLineInput) {
       let
       inputs = tools.parseCommandLineInput(commandLineInput),
-      invalid = tools.isInvalidInteger(inputs[0]);
+      validInput = inputs && inputs.length === 3;
 
-      if(invalid) {
-        return makeCommandLineQuestion('roverLandingConfiguration', 'Hey, supply an integer number.');
-      } else {
+      if(validInput) {
+        let
+        coordinateX = inputs[0],
+        coordinateY = inputs[1],
+        direction = inputs[2],
+        rover = new Rover(),
+        validRoverLanding = rover.setLandingInstructions(coordinateX, coordinateY, direction);
 
+        if(validRoverLanding.message) {
+          makeCommandLineQuestion('roverLandingConfiguration', validRoverLanding.message);
+        } else {
+          let
+          validRover = plateauMars.addRover(rover);
+
+          
+        }
+      }else {
+        makeCommandLineQuestion('roverLandingConfiguration', 'Please, supply the landing coordinates and a valid direction in the format: 0 0 D');
       }
-
     }
   }
 };
 
-print("-------- Mars Rover Simulator --------");
-print("Before start, let's configurate de plateau borders.");
-print("\n");
-
-
-/* Command line intefaces question */
-function makeCommandLineQuestion(methodToDeal, warnMessage) {
-  let
-  flow = programFlowStruct[methodToDeal];
-
+/* Command line inteface question */
+function makeCommandLineQuestion(step, warnMessage) {
   tools.printWarnMessage(warnMessage);
-
-  if(flow && flow.question)
-    flow.question();
+  programFlow[step].question();
 };
 
 /* Command line inteface answer */
-function getUserCommandLineAnswer(questions, methodToDeal) {
-  let
-  flow = programFlowStruct[methodToDeal];
-
-  if(flow)
-    callCommandLineUserInput(questions, flow.answer);
+function getUserCommandLineAnswerFor(step, question) {
+  callCommandLineUserInput([
+    {
+      type: 'input',
+      name: 'userInput',
+      message: question,
+    }
+  ], programFlow[step].answer);
 };
 
 /* Command line api */
@@ -107,9 +102,15 @@ function callCommandLineUserInput(questions, responseMethod) {
   inquirer.prompt(questions).then(responseMethod);
 };
 
-/* Command line start */
+/* app start */
+print("\n");
+print("-------- Mars Rover Simulator --------");
+print("Before start, let's configurate the plateau borders.");
+print("Please, inform the plateau upper-right points with format 0 0 ");
+print("\n");
+
 let
-startQuestion = programFlowStruct.plateauConfiguration.question;
+startPoint = programFlow.plateauConfiguration.question;
 
 program
   .version('0.0.1')
@@ -119,7 +120,7 @@ program
   .command('start')
   .alias('s')
   .description('Start the simulator')
-  .action(startQuestion);
+  .action(startPoint);
 
 program
   .parse(process.argv);

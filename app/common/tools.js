@@ -7,7 +7,7 @@ function isInvalidInteger(data) {
 };
 
 function splitUserInput(inputString) {
-  return inputString.split(" ");
+  return String(inputString).split(" ");
 };
 
 function printWarnMessage(warnMessage) {
@@ -28,7 +28,23 @@ function round(number) {
 };
 
 function parseCommandLineInput(commandLineInput) {
-  return splitUserInput((commandLineInput && commandLineInput.userInput) || "");
+  var
+  split = splitUserInput(commandLineInput && commandLineInput.userInput) || [],
+  filtered = split.filter(function(item) { return String(String(item).trim()).toLocaleUpperCase(); }) || [];
+
+  return filtered;
+};
+
+function isValidDirection(data) {
+  let
+  direction = String(data).toLocaleUpperCase() || "",
+  regex = new RegExp(direction.slice(0,1), "gi");
+
+  return "NSEW".match(regex);
+};
+
+function isInvalidDirection(data) {
+  return !isValidDirection(data);
 };
 
 module.exports = {
@@ -37,4 +53,6 @@ module.exports = {
   printWarnMessage: printWarnMessage,
   round: round,
   parseCommandLineInput: parseCommandLineInput,
+  isValidDirection: isValidDirection,
+  isInvalidDirection: isInvalidDirection,
 }
