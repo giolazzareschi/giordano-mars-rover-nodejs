@@ -7,7 +7,7 @@ function isInvalidInteger(data) {
 };
 
 function splitUserInput(inputString) {
-  return String(inputString || "").split(" ");
+  return String(inputString || "").trim().split(" ");
 };
 
 function printWarnMessageIfExists(warnMessage) {
@@ -29,8 +29,9 @@ function round(number) {
 
 function parseCommandLineInput(commandLineInput) {
   var
-  split = splitUserInput(commandLineInput && commandLineInput.userInput.trim()) || [],
-  filtered = split.filter(function(item) { return String(String(item).trim()).toLocaleUpperCase(); }) || [];
+  userInput = commandLineInput && commandLineInput.userInput,
+  splitedInput = userInput ? splitUserInput(userInput.trim()) : [],
+  filtered = splitedInput.filter(command => String(String(command).trim()).toLocaleUpperCase()) || [];
 
   return filtered;
 };
@@ -48,6 +49,7 @@ function isInvalidDirection(data) {
 };
 
 module.exports = {
+  print: print,
   isInvalidInteger: isInvalidInteger,
   splitUserInput: splitUserInput,
   printWarnMessageIfExists: printWarnMessageIfExists,
