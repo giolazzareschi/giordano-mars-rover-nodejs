@@ -74,11 +74,11 @@ class Rover{
   }
 
   turnLeft() {
-    this.setCurrentDirection(this.getCurrentSiblingPosition('left'));
+    this.setCurrentDirection(this.getPositionWhenTurnLeft());
   }
 
   turnRight() {
-    this.setCurrentDirection(this.getCurrentSiblingPosition('right'));
+    this.setCurrentDirection(this.getPositionWhenTurnRight());
   }
 
   move() {
@@ -98,19 +98,23 @@ class Rover{
   }
 
   moveX(amount) {
-    this.currentState.x += amount;
+    this.currentState.x += (parseInt(amount) || 0);
   }
 
   moveY(amount) {
-    this.currentState.y += amount;
+    this.currentState.y += (parseInt(amount) || 0);
   }
 
   setCurrentDirection(direction) {
     this.currentState.direction = direction;
   }
 
-  getCurrentSiblingPosition(direction) {
-    return positionsMapping[this.getCurrentDirection()][direction];
+  getPositionWhenTurnLeft() {
+    return positionsMapping[this.getCurrentDirection()].left;
+  }
+
+  getPositionWhenTurnRight() {
+    return positionsMapping[this.getCurrentDirection()].right;
   }
 
   parseInstructions(data) {

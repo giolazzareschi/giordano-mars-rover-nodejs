@@ -159,7 +159,7 @@ print("Please, inform the plateau upper-right points with format 0 0 ");
 print("\n");
 
 let
-startPoint = programFlow.plateauConfiguration.question;
+startQuestion = programFlow.plateauConfiguration.question;
 
 program
   .version('1.0.0')
@@ -169,7 +169,7 @@ program
   .command('start')
   .alias('s')
   .description('Start the simulator')
-  .action(startPoint);
+  .action(startQuestion);
 
 program
   .parse(process.argv);
