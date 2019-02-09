@@ -1,5 +1,20 @@
 #!/usr/bin/env node
 
+/* 
+  The program flow: the struct "programFLow" have all the flows that the programs run along. 
+  
+  The strcut are made of steps that scopes the context of a given point of the app.
+  Each step have a question and a respective answer for that question.
+
+  The program starts with the 'plateauConfiguration', if succeeds goes to first rover
+  configuration in 'roverLandingConfiguration'. If the config for the first rover
+  is good, the program will ask for the instructions for the current rover in
+  'instructionsForCurrentRover'.
+
+  If the instructions are correct, the program shows the final position for the rover
+  and lead the user to a next rover until the user decides to finish the program.
+*/
+
 'use strict';
 
 /* npm modules */
@@ -13,22 +28,8 @@ const Rover = require('./app/models/Rover');
 
 /* local variables */
 const print = console.log;
+
 let plateauMars = new Plateau();
-
-/* 
-  The program flow: the struct below have all the flows that the programs run along. 
-  
-  The strcut are made of steps that scopes the context of a given point of the app.
-  Each step have a question and a respective answer for that question.
-
-  The program starts with the 'plateauConfiguration', if succeeds goes to first rover
-  configuration in 'roverLandingConfiguration'. If the config for the first rover
-  is good, the program will ask for the instructions for the current rover in
-  'instructionsForCurrentRover'.
-
-  If the instructions are correct, the program shows the final position for the rover
-  and lead the user to a next rover until the user decides to finish the program.
-*/
 let programFlow = {
 
   plateauConfiguration: {
@@ -54,7 +55,6 @@ let programFlow = {
           print("\n");
           makeCommandLineQuestion('roverLandingConfiguration');
         }
-
       } else {
         makeCommandLineQuestion('plateauConfiguration', 'Hey, supply 2 integer numbers please.');
       }
@@ -120,8 +120,6 @@ let programFlow = {
           print("\n");
           makeCommandLineQuestion('roverLandingConfiguration'); 
         }
-
-          
       }else{
         makeCommandLineQuestion('instructionsForCurrentRover', 'Please inform correct instructions for the current Rover. Only allowed: L R M');
       }
@@ -131,13 +129,13 @@ let programFlow = {
 
 /* Command line inteface question */
 function makeCommandLineQuestion(step, warnMessage) {
-  tools.printWarnMessage(warnMessage);
+  tools.printWarnMessageIfExists(warnMessage);
   programFlow[step].question();
 };
 
 /* Command line inteface answer */
 function getUserCommandLineAnswerFor(step, question) {
-  callCommandLineUserInput([
+  promptUserInputFromCommandLine([
     {
       type: 'input',
       name: 'userInput',
@@ -147,7 +145,7 @@ function getUserCommandLineAnswerFor(step, question) {
 };
 
 /* Command line api */
-function callCommandLineUserInput(questions, responseMethod) {
+function promptUserInputFromCommandLine(questions, responseMethod) {
   inquirer.prompt(questions).then(responseMethod);
 };
 

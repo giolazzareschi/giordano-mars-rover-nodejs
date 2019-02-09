@@ -10,7 +10,7 @@ function splitUserInput(inputString) {
   return String(inputString || "").split(" ");
 };
 
-function printWarnMessage(warnMessage) {
+function printWarnMessageIfExists(warnMessage) {
   if(warnMessage) {
     print('\n');
     print('::::::::::::::');

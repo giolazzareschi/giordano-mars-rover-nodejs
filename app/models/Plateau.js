@@ -5,7 +5,6 @@ const tools = require('../common/tools');
 class Plateau{
 
   constructor() {
-    
     this.limitsCoordenates = {
       x: 0,
       y: 0
