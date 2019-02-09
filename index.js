@@ -43,10 +43,12 @@ let programFlow = {
         coordinateY = inputs[1],
         inValidBorders = plateauMars.setBorderLimits(coordinateX, coordinateY);
         
-        if(inValidBorders.message)
+        if(inValidBorders.message) {
           makeCommandLineQuestion('plateauConfiguration', inValidBorders.message);
-        else
+        } else { 
+          print("\n");
           makeCommandLineQuestion('roverLandingConfiguration');
+        }
 
       } else {
         makeCommandLineQuestion('plateauConfiguration', 'Hey, supply 2 integer numbers please.');
@@ -80,7 +82,7 @@ let programFlow = {
           validRover = plateauMars.addRover(rover);
 
           rover.name = plateauMars.getRoverPoolSize();
-          
+
           makeCommandLineQuestion('instructionsForCurrentRover');
         }
       }else {
@@ -108,7 +110,9 @@ let programFlow = {
         if(invalidInstructions.message) {
           makeCommandLineQuestion('instructionsForCurrentRover', invalidInstructions.message);
         } else {
+          print("\n");
           print(currentRover.displayCurrentState());
+          print("\n");
           makeCommandLineQuestion('roverLandingConfiguration'); 
         }
 

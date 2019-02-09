@@ -52,7 +52,6 @@ class Rover{
       return new Error('Provide valid directions please. Onyl allowes L R M');
 
     parseInstructions.forEach(instruction => {
-      // console.log('loop ', instruction);
       this.dealWithInstruction(instruction);
     });
 
@@ -75,7 +74,6 @@ class Rover{
   }
 
   turnLeft() {
-    // console.log('before direction', this.getCurrentDirection());
     this.setCurrentDirection(this.getCurrentSiblingPosition('left'));
   }
 
@@ -86,8 +84,6 @@ class Rover{
   move() {
     let
     currentDirection = this.getCurrentDirection();
-
-    // console.log('currentDirection', currentDirection);
 
     switch(currentDirection) {
       case 'N':
@@ -102,12 +98,10 @@ class Rover{
   }
 
   moveX(amount) {
-    // console.log('x', amount);
     this.currentState.x += amount;
   }
 
   moveY(amount) {
-    // console.log('y', amount);
     this.currentState.y += amount;
   }
 
@@ -133,7 +127,7 @@ class Rover{
 
   displayCurrentState() {
     let
-    text = this.name + ": ";
+    text = " >>> " + this.name + " final position: ";
 
     for(let index in this.currentState)
       text += " " + this.currentState[index];

@@ -33,7 +33,6 @@ describe('Rover model', () => {
       let rover = new Rover();
       expect(rover.name).to.be.equal("Rover");
     })
-
   })
 
   describe('About the getters and setters', () => {
@@ -67,7 +66,6 @@ describe('Rover model', () => {
 
       expect(rover.name).to.be.equal('Rover1');
     })
-
   })
   
   describe('About the directions logic', () => {
@@ -145,7 +143,33 @@ describe('Rover model', () => {
       expect(roverValidation).to.have.property('message');
       expect(roverValidation.message).to.not.be.null;
     })
-
   })
 
+  describe('About the movements', () => {
+
+    it('should start and go to W', () => {
+      let rover = new Rover();
+
+      rover.setInstructions('L');
+
+      expect(rover.getCurrentDirection()).to.be.equal('W');
+    })
+
+    it('should start and go to S', () => {
+      let rover = new Rover();
+
+      rover.setInstructions('LL');
+
+      expect(rover.getCurrentDirection()).to.be.equal('S');
+    })
+
+    it('should start and go to E', () => {
+      let rover = new Rover();
+
+      rover.setInstructions('LLL');
+
+      expect(rover.getCurrentDirection()).to.be.equal('E');
+    })
+ 
+  })
 })

@@ -10,8 +10,8 @@ const positionsMapping = {
     right: 'N'
   },
   'S': {
-    left: 'W',
-    right: 'E'
+    left: 'E',
+    right: 'W'
   },
   'E': {
     left: 'N',
