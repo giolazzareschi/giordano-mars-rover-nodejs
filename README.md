@@ -19,7 +19,7 @@ npm test
 ## About the program flow in index.js
 The struct called 'programFlow' have all the flows that the programs run along. 
 
-The strcut are made of steps that scopes the context of a given point of the app.
+The strucut are made of steps that scopes the context of a given point of the app.
 Each step have a question and a respective answer for that question.
 
 The program starts with the 'plateauConfiguration', if succeeds goes to first rover
@@ -66,5 +66,7 @@ let programFlow = {
 ```
 
 ### Configurations used
+
 nodejs 8.11.3
+
 npm 5.6.0
