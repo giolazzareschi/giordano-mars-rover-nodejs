@@ -116,6 +116,36 @@ describe('Rover model', () => {
       expect(roverValidation.message).to.not.be.null;
     })
 
+    it('should accept instructions to move', () => {
+      let rover = new Rover();
+      let roverValidation = rover.setInstructions('LRM');
+
+      expect(roverValidation).to.be.equal(true);
+    })
+
+    it('should identify instructions among characters and spaces', () => {
+      let rover = new Rover();
+      let roverValidation = rover.setInstructions('102oda R$@!#!@# ´ ldsa0 1 ds a  dsdll l l mn asd r');
+
+      expect(roverValidation).to.be.equal(true);
+    })
+
+    it('should not accept instructions if numbers are passed', () => {
+      let rover = new Rover();
+      let roverValidation = rover.setInstructions(112);
+
+      expect(roverValidation).to.have.property('message');
+      expect(roverValidation.message).to.not.be.null;
+    })
+
+    it('should not accept instructions if not find any instructions', () => {
+      let rover = new Rover();
+      let roverValidation = rover.setInstructions('dsajidubashdjsakdasdjashdiaoi');
+
+      expect(roverValidation).to.have.property('message');
+      expect(roverValidation.message).to.not.be.null;
+    })
+
   })
 
 })
