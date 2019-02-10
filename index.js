@@ -45,10 +45,10 @@ let programFlow = {
         let
         coordinateX = inputs[0],
         coordinateY = inputs[1],
-        inValidBorders = plateauMars.setBorderLimits(coordinateX, coordinateY);
+        bordersValidation = plateauMars.setBorderLimits(coordinateX, coordinateY);
         
-        if(inValidBorders.message)
-          makeCommandLineQuestion('plateauConfiguration', inValidBorders.message);
+        if(bordersValidation.message)
+          makeCommandLineQuestion('plateauConfiguration', bordersValidation.message);
         else
           makeCommandLineQuestion('roverLandingConfiguration');
 
