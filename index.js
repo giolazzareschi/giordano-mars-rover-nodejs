@@ -133,19 +133,19 @@ function makeCommandLineQuestion(step, warnMessage) {
   let
   stepData = programFlow[step],
   question = stepData.question(),
-  answer = stepData.answer;
+  answerMethod = stepData.answer;
 
   tools.printWarnMessageIfExists(warnMessage);
 
-  promptUserInputFromCommandLine([{
+  commandLineApi([{
     type: 'input',
     name: 'userInput',
     message: question,
-  }], answer);
+  }], answerMethod);
 };
 
 /* Command line api */
-function promptUserInputFromCommandLine(questions, responseMethod) {
+function commandLineApi(questions, responseMethod) {
   inquirer.prompt(questions).then(responseMethod);
 };
 
