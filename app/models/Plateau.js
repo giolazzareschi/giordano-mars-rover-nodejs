@@ -38,6 +38,12 @@ class Plateau{
     let
     roverState = roverInstance.state;
 
+    if(roverState.x > this.limits.x)
+      return new Error("The rover X position must be inside the plateau borders.");
+
+    if(roverState.y < this.limits.y)
+      return new Error("The rover X position must be inside the plateau borders.");
+
     this.roverPool.push(roverInstance);
   }
 

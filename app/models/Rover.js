@@ -30,9 +30,15 @@ class Rover{
   setLandingInstructions(x, y, direction) {
     if(this.isInvalidInteger(x))
       return new Error('Woops, X coordinate must be an integer.');
+    
+    if(x < 0)
+      return new Error('Woops, X coordinate must be bigger or equal than 0.');
 
     if(this.isInvalidInteger(y))
       return new Error('Woops, Y coordinate must be an integer.');
+    
+    if(y < 0)
+      return new Error('Woops, Y coordinate must be bigger or equal than 0.');
 
     if(this.isInvalidDirection(direction))    
       return new Error('Provide a valid direction N S E W.');

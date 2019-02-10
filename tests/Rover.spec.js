@@ -106,6 +106,22 @@ describe('Rover model', () => {
       expect(roverValidation.message).to.not.be.null;
     })
 
+    it('should return error message to X coordinate out of limits', () => {
+      let rover = new Rover();
+      let roverValidation = rover.setLandingInstructions(-1, 0, 'E');
+
+      expect(roverValidation).to.have.property('message');
+      expect(roverValidation.message).to.not.be.null;
+    })
+
+    it('should return error message to Y coordinate out of limits', () => {
+      let rover = new Rover();
+      let roverValidation = rover.setLandingInstructions(-1, 0, 'E');
+
+      expect(roverValidation).to.have.property('message');
+      expect(roverValidation.message).to.not.be.null;
+    })
+
     it('should return error message to wrong Y coordinate', () => {
       let rover = new Rover();
       let roverValidation = rover.setLandingInstructions(3, 'F', 'E');

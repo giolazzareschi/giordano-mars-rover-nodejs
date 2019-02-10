@@ -83,6 +83,11 @@ let programFlow = {
         } else {
           let validRoverArea = plateauMars.addRover(rover);
 
+          console.log(validRoverArea);
+
+          if(!validRoverArea)
+            return makeCommandLineQuestion("roverLandingConfiguration", validRoverArea.message);
+
           rover.name = plateauMars.getRoverPoolSize();
 
           makeCommandLineQuestion('instructionsForCurrentRover');
