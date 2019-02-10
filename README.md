@@ -1,6 +1,6 @@
 # Giordano Mars Rover Test
 
-Test for VoyagerPortal: an implementation in plain nodejs of a Mars Rover problem.
+Test for VoyagerPortal: an implementation in plain nodejs of the Mars Rover problem.
 
 ## How to run the code
 ```
