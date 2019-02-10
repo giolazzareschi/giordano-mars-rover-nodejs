@@ -27,14 +27,13 @@ const Plateau = require('./app/models/Plateau');
 const Rover = require('./app/models/Rover');
 
 /* local variables */
-let print = console.log;
 let plateauMars = new Plateau();
 let programFlow = {
 
   plateauConfiguration: {
 
     question: function() {
-      getUserCommandLineAnswerFor('plateauConfiguration', "Plateau upper-right limits: ");
+      return  "Plateau upper-right limits: ";
     },
 
     answer: function(commandLineInput) {
@@ -62,7 +61,7 @@ let programFlow = {
   roverLandingConfiguration: {
 
     question: function() {
-      getUserCommandLineAnswerFor('roverLandingConfiguration', "Rover" + ( plateauMars.getRoverPoolSize() + 1 ) + " Landing: ");
+      return "Rover" + ( plateauMars.getRoverPoolSize() + 1 ) + " Landing: ";
     },
 
     answer: function(commandLineInput) {
@@ -101,7 +100,7 @@ let programFlow = {
   instructionsForCurrentRover: {
 
     question: function() {
-      getUserCommandLineAnswerFor('instructionsForCurrentRover', "Rover" + ( plateauMars.getRoverPoolSize() ) + " Instructions: ");
+      return "Rover" + ( plateauMars.getRoverPoolSize() ) + " Instructions: ";
     },
 
     answer: function(commandLineInput) {
@@ -117,9 +116,9 @@ let programFlow = {
         if(invalidInstructions.message) {
           makeCommandLineQuestion('instructionsForCurrentRover', invalidInstructions.message);
         } else {
-          print("\n");
-          print(currentRover.displayCurrentState());
-          print("\n");
+          tools.print("\n");
+          tools.print(currentRover.displayCurrentState());
+          tools.print("\n");
           makeCommandLineQuestion('roverLandingConfiguration'); 
         }
       }else{
@@ -131,19 +130,18 @@ let programFlow = {
 
 /* Command line inteface question */
 function makeCommandLineQuestion(step, warnMessage) {
-  tools.printWarnMessageIfExists(warnMessage);
-  programFlow[step].question();
-};
+  let
+  stepData = programFlow[step],
+  question = stepData.question(),
+  answer = stepData.answer;
 
-/* Command line inteface answer */
-function getUserCommandLineAnswerFor(step, question) {
-  promptUserInputFromCommandLine([
-    {
-      type: 'input',
-      name: 'userInput',
-      message: question,
-    }
-  ], programFlow[step].answer);
+  tools.printWarnMessageIfExists(warnMessage);
+
+  promptUserInputFromCommandLine([{
+    type: 'input',
+    name: 'userInput',
+    message: question,
+  }], answer);
 };
 
 /* Command line api */
@@ -152,14 +150,11 @@ function promptUserInputFromCommandLine(questions, responseMethod) {
 };
 
 /* app start */
-print("\n");
-print("-------- Mars Rover Simulator --------");
-print("Before start, let's configurate the plateau borders.");
-print("Please, inform the plateau upper-right points with format 0 0 ");
-print("\n");
-
-let
-startQuestion = programFlow.plateauConfiguration.question;
+tools.print("\n");
+tools.print("-------- Mars Rover Simulator --------");
+tools.print("Before start, let's configurate the plateau borders.");
+tools.print("Please, inform the plateau upper-right points with format 0 0 ");
+tools.print("\n");
 
 program
   .version('1.0.0')
@@ -169,7 +164,7 @@ program
   .command('start')
   .alias('s')
   .description('Start the simulator')
-  .action(startQuestion);
+  .action(() => makeCommandLineQuestion('plateauConfiguration'));
 
 program
   .parse(process.argv);
