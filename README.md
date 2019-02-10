@@ -16,6 +16,13 @@ npm start
 npm test
 ```
 
+## About the rules
+- The rovers must land inside the plateau area
+- The rovers cannot cross the plateau borders
+- The program must output the final position for every rover
+- To end the program press ctrl+c in the terminal
+
+
 ## About the program flow in index.js
 The struct called 'programFlow' have all the flows that the programs run along. 
 
