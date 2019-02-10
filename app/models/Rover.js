@@ -5,7 +5,7 @@ const { positionsMapping } = require('../common/positionsMapping');
 
 class Rover{
 
-  constructor() {
+  constructor(Plateau) {
     this.currentState = {
       x: 0,
       y: 0,
@@ -25,6 +25,14 @@ class Rover{
 
   get name() {
     return this.roverName;
+  }
+
+  set plateau(plateau) {
+    this.plateauReference = plateau;
+  }
+
+  get plateau() {
+    return this.plateauReference;
   }
 
   setLandingInstructions(x, y, direction) {
@@ -53,6 +61,9 @@ class Rover{
   setInstructions(data) {
     var
     parseInstructions = this.parseInstructions(data);
+
+    if(!this.plateau)
+      return new Error('A plateau must be given for the rover move over.');
 
     if(!parseInstructions || !parseInstructions.length)
       return new Error('Provide valid directions please. Onyl allowes L R M');
@@ -105,10 +116,16 @@ class Rover{
 
   moveX(amount) {
     this.currentState.x += (parseInt(amount) || 0);
+
+    if(this.currentState.x < 0)
+      this.currentState.x = 0;    
   }
 
   moveY(amount) {
     this.currentState.y += (parseInt(amount) || 0);
+
+    if(this.currentState.y > this.plateau.limits.y)
+      this.currentState.y = this.plateau.limits.y;
   }
 
   setCurrentDirection(direction) {

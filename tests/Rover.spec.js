@@ -1,6 +1,7 @@
 'use strict'
 
 const Rover = require('../app/models/Rover');
+const Plateau = require('../app/models/Plateau');
 const expect = require('chai').expect;
 
 describe('Rover model', () => {
@@ -139,15 +140,23 @@ describe('Rover model', () => {
     })
 
     it('should accept instructions to move', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
-      let roverValidation = rover.setInstructions('LRM');
 
-      expect(roverValidation).to.be.equal(true);
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
+
+      expect(rover.setInstructions('LRM')).to.be.equal(true);
     })
 
     it('should identify instructions among characters and spaces', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
-      let roverValidation = rover.setInstructions('102oda R$@!#!@# ´ ldsa0 1 ds a  dsdll l l mn asd r');
+      let roverValidation; 
+
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
+      roverValidation = rover.setInstructions('102oda R$@!#!@# ´ ldsa0 1 ds a  dsdll l l mn asd r');
 
       expect(roverValidation).to.be.equal(true);
     })
@@ -172,32 +181,41 @@ describe('Rover model', () => {
   describe('About the movements', () => {
 
     it('should start and go to W', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      rover.plateau = plateauMars;
       rover.setInstructions('L');
 
       expect(rover.getCurrentDirection()).to.be.equal('W');
     })
 
     it('should start and go to S', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      rover.plateau = plateauMars;
       rover.setInstructions('LL');
 
       expect(rover.getCurrentDirection()).to.be.equal('S');
     })
 
     it('should start and go to E', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      rover.plateau = plateauMars;
       rover.setInstructions('LLL');
 
       expect(rover.getCurrentDirection()).to.be.equal('E');
     })
 
     it('should start at 3 2 W and finish at 1 1 E', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
       rover.setLandingInstructions(3, 2, 'W');
       rover.setInstructions('MMLML');
 
@@ -207,8 +225,11 @@ describe('Rover model', () => {
     })
 
     it('should start at 6 5 S and finish at 2 4 E', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
       rover.setLandingInstructions(6, 5, 'S');
       rover.setInstructions('MRMLRMMMRR');
 
@@ -238,20 +259,24 @@ describe('Rover model', () => {
     })
 
     it('should deal with instruction and move to South', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
       rover.setLandingInstructions(1, 1, 'S');
-      
       rover.dealWithInstruction('M');
 
       expect(rover.state.y).to.be.equal(0);
     })
 
     it('should deal with instruction and move to North', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
       rover.setLandingInstructions(1, 1, 'N');
-      
       rover.dealWithInstruction('M');
 
       expect(rover.state.y).to.be.equal(2);
@@ -278,8 +303,11 @@ describe('Rover model', () => {
     })
 
     it('should move 1 point to North', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
       rover.setLandingInstructions(1, 1, 'N');
       
       rover.move();
@@ -288,8 +316,11 @@ describe('Rover model', () => {
     })
 
     it('should move 1 point to South', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
       rover.setLandingInstructions(1, 1, 'S');
       
       rover.move();
@@ -298,8 +329,11 @@ describe('Rover model', () => {
     })
 
     it('should move 1 point to East', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
       rover.setLandingInstructions(1, 1, 'E');
       
       rover.move();
@@ -308,8 +342,11 @@ describe('Rover model', () => {
     })
 
     it('should move 1 point to Weast', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
       rover.setLandingInstructions(1, 1, 'W');
       
       rover.move();
@@ -317,9 +354,12 @@ describe('Rover model', () => {
       expect(rover.state.x).to.be.equal(0);
     })
 
-    it('should decrease 1 point to x state', () => {
+    it('should decrease 1 point to X state', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
       rover.setLandingInstructions(1, 1, 'W');
       
       rover.moveX(-1);
@@ -328,9 +368,12 @@ describe('Rover model', () => {
       expect(rover.state.x).to.be.equal(0);
     })
 
-    it('should increase 1 point to x state', () => {
+    it('should increase 1 point to X state', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
       rover.setLandingInstructions(1, 1, 'W');
       
       rover.moveX(1);
@@ -340,8 +383,11 @@ describe('Rover model', () => {
     })
 
     it('should decrease 1 point to Y state', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
       rover.setLandingInstructions(1, 1, 'N');
       
       rover.moveY(-1);
@@ -351,8 +397,11 @@ describe('Rover model', () => {
     })
 
     it('should increase 1 point to Y state', () => {
+      let plateauMars = new Plateau();
       let rover = new Rover();
 
+      plateauMars.setBorderLimits(5,5);
+      rover.plateau = plateauMars;
       rover.setLandingInstructions(1, 1, 'S');
       
       rover.moveY(1);

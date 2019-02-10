@@ -78,12 +78,12 @@ let programFlow = {
         rover = new Rover(),
         inValidRoverLanding = rover.setLandingInstructions(coordinateX, coordinateY, direction);
 
+        rover.plateau = plateauMars;
+
         if(inValidRoverLanding.message) {
           makeCommandLineQuestion('roverLandingConfiguration', inValidRoverLanding.message);
         } else {
           let validRoverArea = plateauMars.addRover(rover);
-
-          console.log(validRoverArea);
 
           if(!validRoverArea)
             return makeCommandLineQuestion("roverLandingConfiguration", validRoverArea.message);
