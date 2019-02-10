@@ -19,6 +19,7 @@ npm test
 ## About the rules
 - The rovers must land inside the plateau area
 - The rovers cannot cross the plateau borders
+  - If the rover reach any border it will stand on this border
 - The program must output the final position for every rover
 - To end the program press ctrl+c in the terminal
 
