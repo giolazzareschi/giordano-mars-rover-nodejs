@@ -83,28 +83,30 @@ describe('Plateau model', () => {
       let plateau = new Plateau();
       let rover = new Rover();
 
+      plateau.setBorderLimits(5, 5);
+      rover.setLandingInstructions(0, 0);
       plateau.addRover(rover);
       
       expect(plateau.roverPool.length).to.be.equal(1);
     })
     
-    it('should not permit a Rover out of bounds X', () => {
+    it('should not permit a Rover out of X border', () => {
       let plateau = new Plateau();
       let rover = new Rover();
 
       plateau.setBorderLimits(5, 5);
-      rover.setLandingInstructions(6, 5);
+      rover.setLandingInstructions(6, 5, 'N');
       plateau.addRover(rover);
       
       expect(plateau.roverPool.length).to.be.equal(0);
     })
     
-    it('should not permit a Rover out of bounds Y', () => {
+    it('should not permit a Rover out of Y border', () => {
       let plateau = new Plateau();
       let rover = new Rover();
 
       plateau.setBorderLimits(5, 5);
-      rover.setLandingInstructions(5, 6);
+      rover.setLandingInstructions(5, 6, 'N');
       plateau.addRover(rover);
       
       expect(plateau.roverPool.length).to.be.equal(0);

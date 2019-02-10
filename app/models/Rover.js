@@ -118,11 +118,17 @@ class Rover{
     this.currentState.x += (parseInt(amount) || 0);
 
     if(this.currentState.x < 0)
-      this.currentState.x = 0;    
+      this.currentState.x = 0;
+
+    if(this.currentState.x > this.plateau.limits.x)
+      this.currentState.x = this.plateau.limits.x;
   }
 
   moveY(amount) {
     this.currentState.y += (parseInt(amount) || 0);
+
+    if(this.currentState.y < 0)
+      this.currentState.y = 0;
 
     if(this.currentState.y > this.plateau.limits.y)
       this.currentState.y = this.plateau.limits.y;

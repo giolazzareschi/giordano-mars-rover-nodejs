@@ -454,6 +454,62 @@ describe('Rover model', () => {
 
       expect(sibling).to.be.equal('W');
     })
+
+    it('should not cross X right border', () => {
+      let plateauMars = new Plateau();
+      let rover = new Rover();
+      let sibling;
+
+      rover.plateau = plateauMars;
+      plateauMars.setBorderLimits(5,5);
+      rover.setLandingInstructions(3, 3, 'E');
+
+      rover.setInstructions("MMMMMM");
+
+      expect(rover.state.x).to.be.equal(5);
+    })
+
+    it('should not cross X left border', () => {
+      let plateauMars = new Plateau();
+      let rover = new Rover();
+      let sibling;
+
+      rover.plateau = plateauMars;
+      plateauMars.setBorderLimits(5,5);
+      rover.setLandingInstructions(3, 3, 'W');
+
+      rover.setInstructions("MMMMMM");
+
+      expect(rover.state.x).to.be.equal(0);
+    })
+
+    it('should not cross Y up border', () => {
+      let plateauMars = new Plateau();
+      let rover = new Rover();
+      let sibling;
+
+      rover.plateau = plateauMars;
+      plateauMars.setBorderLimits(5,5);
+      rover.setLandingInstructions(3, 3, 'N');
+
+      rover.setInstructions("MMMMMM");
+
+      expect(rover.state.y).to.be.equal(5);
+    })
+
+    it('should not cross Y left border', () => {
+      let plateauMars = new Plateau();
+      let rover = new Rover();
+      let sibling;
+
+      rover.plateau = plateauMars;
+      plateauMars.setBorderLimits(5,5);
+      rover.setLandingInstructions(3, 3, 'S');
+
+      rover.setInstructions("MMMMMM");
+
+      expect(rover.state.y).to.be.equal(0);
+    })
   })
 
   describe('About the other internal methods', () => {

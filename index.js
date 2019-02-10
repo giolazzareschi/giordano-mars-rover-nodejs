@@ -83,10 +83,10 @@ let programFlow = {
         if(inValidRoverLanding.message) {
           makeCommandLineQuestion('roverLandingConfiguration', inValidRoverLanding.message);
         } else {
-          let validRoverArea = plateauMars.addRover(rover);
+          let invalidRoverArea = plateauMars.addRover(rover);
 
-          if(!validRoverArea)
-            return makeCommandLineQuestion("roverLandingConfiguration", validRoverArea.message);
+          if(invalidRoverArea.message)
+            return makeCommandLineQuestion("roverLandingConfiguration", invalidRoverArea.message);
 
           rover.name = plateauMars.getRoverPoolSize();
 
