@@ -155,6 +155,8 @@ tools.print("-------- Mars Rover Simulator --------");
 tools.print("Before start, let's configurate the plateau borders.");
 tools.print("Please, inform the plateau upper-right points with format 0 0 ");
 tools.print("\n");
+tools.print("******* press ctrl + c to stop *******");
+tools.print("\n");
 
 program
   .version('1.0.0')
